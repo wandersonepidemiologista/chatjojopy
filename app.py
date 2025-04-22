@@ -122,14 +122,22 @@ db = carregar_e_indexar_base()
 rag = None
 if db:
     try:
-        retriever = db.as_retriever(search_kwargs={'k': 3}) # Recupera os 3 chunks mais relevantes
-        # Configurar a chain RetrievalQA
+        retriever = db.as_retriever(search_kwargs={'k': 3})
+        # Criar um template de prompt customizado
+        prompt_template = """Responda à seguinte pergunta com base no contexto fornecido:
+        {context}
+        Pergunta: {question}
+        Resposta:"""
+        PROMPT = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
+
+        # Configurar a chain RetrievalQA com o tipo 'stuff' e o prompt customizado
         rag = RetrievalQA.from_chain_type(
             llm=llm,
-            chain_type="stuff", # Chain type comum para RAG
+            chain_type="stuff",
             retriever=retriever,
-            return_source_documents=True # Opcional: retornar documentos fonte
-            )
+            chain_type_kwargs={"prompt": PROMPT},
+            return_source_documents=True
+        )
     except Exception as e:
         st.error(f"Erro ao configurar a cadeia RAG: {e}")
 else:
