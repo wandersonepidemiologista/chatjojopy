@@ -1,11 +1,9 @@
 streamlit
 langchain
 langchain-community
-huggingface_hub
-faiss-cpu
-tiktoken
-unstructured
+langchain-huggingface # Pode ser necessário dependendo da versão do langchain
+faiss-cpu # Ou faiss-gpu se tiver GPU e CUDA configurados
 pypdf
+sentence-transformers # Necessário para HuggingFaceEmbeddings
 python-dotenv
-sentence-transformers
 
