@@ -15,24 +15,12 @@ load_dotenv()
 # 🌐 Configuração da interface com tema personalizado
 st.set_page_config(page_title="ChatJoJoPy", layout="wide")
 
-# Estilização customizada com as cores fornecidas
+# Estilo customizado com as cores fornecidas
 st.markdown("""
     <style>
-    body {
-        background-color: #f8f6ca;
-        color: #025e73;
-    }
-    .stApp {
-        background-color: #f8f6ca;
-    }
-    .css-1d391kg, .css-1v3fvcr, .css-18e3th9 {
-        background-color: #ffffff !important;
-        border: 1px solid #02735e !important;
-        color: #025e73;
-    }
-    .stTextInput > div > div > input {
-        color: #025e73 !important;
-    }
+    body { background-color: #f8f6ca; color: #025e73; }
+    .stApp { background-color: #f8f6ca; }
+    .stTextInput > div > div > input { color: #025e73 !important; }
     .stChatMessage.user, .stChatMessage.assistant {
         background-color: #ffffff;
         border-radius: 10px;
@@ -49,8 +37,6 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-
-st.title("🤖 ChatJoJoPy — Emergências em Saúde Pública")
 
 # Sidebar com a logo
 with st.sidebar:
@@ -87,22 +73,40 @@ except Exception as e:
     st.error(f"Erro ao carregar documentos: {e}")
     st.stop()
 
-# Inicializa histórico de mensagens
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
+# 🔍 Interface com abas
+abas = st.tabs(["🧠 Chat", "📄 Documentos", "⚙️ Sobre"])
 
-# Exibe mensagens anteriores
-for i, (role, content) in enumerate(st.session_state.chat_history):
-    st.chat_message(role).write(content)
+with abas[0]:
+    st.title("🤖 ChatJoJoPy — Emergências em Saúde Pública")
 
-# Input interativo
-if prompt := st.chat_input("Digite sua pergunta sobre emergências em saúde pública..."):
-    st.chat_message("user").write(prompt)
-    try:
-        resposta = rag.run(prompt)
-    except Exception as e:
-        resposta = f"Erro ao gerar resposta: {e}"
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
 
-    st.chat_message("assistant").write(resposta)
-    st.session_state.chat_history.append(("user", prompt))
-    st.session_state.chat_history.append(("assistant", resposta))
+    for role, content in st.session_state.chat_history:
+        st.chat_message(role).write(content)
+
+    if prompt := st.chat_input("Digite sua pergunta sobre emergências em saúde pública..."):
+        st.chat_message("user").write(prompt)
+        try:
+            resposta = rag.run(prompt)
+        except Exception as e:
+            resposta = f"Erro ao gerar resposta: {e}"
+        st.chat_message("assistant").write(resposta)
+        st.session_state.chat_history.append(("user", prompt))
+        st.session_state.chat_history.append(("assistant", resposta))
+
+with abas[1]:
+    st.subheader("📄 Documentos carregados")
+    st.markdown("Os seguintes arquivos PDF foram incluídos no modelo:")
+    for arquivo in os.listdir("documentos"):
+        if arquivo.endswith(".pdf"):
+            st.markdown(f"- {arquivo}")
+
+with abas[2]:
+    st.subheader("⚙️ Sobre o projeto")
+    st.markdown("""
+    - **Nome:** ChatJoJoPy
+    - **Objetivo:** Apoiar a consulta rápida a documentos técnicos sobre emergências em saúde pública.
+    - **Desenvolvedor:** Wanderson Oliveira
+    - **Código-fonte:** [GitHub](https://github.com/wandersonepidemiologista/chatjojopy)
+    """)
