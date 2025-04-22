@@ -12,8 +12,12 @@ import os
 load_dotenv()
 hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
-# Configura o modelo do Hugging Face
-llm = HuggingFaceHub(repo_id="google/flan-t5-base", model_kwargs={"temperature": 0.5}, huggingfacehub_api_token=hf_token)
+llm = HuggingFaceHub(
+    repo_id="google/flan-t5-base",
+    model_kwargs={"temperature": 0.5, "max_length": 512},
+    huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
+    task="text2text-generation"  # 👈 Aqui está a correção
+)
 
 st.set_page_config(page_title="ChatJoJoPy com HF", layout="wide")
 st.title("🤖 ChatJoJoPy — Emergências em Saúde Pública")
