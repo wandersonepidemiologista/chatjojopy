@@ -20,10 +20,18 @@ st.title("🤖 ChatJoJoPy — Emergências em Saúde Pública")
 
 @st.cache_resource
 def carregar_base():
-    loader = PyPDFLoader("documentos/plano_resposta_emergencias_saude_publica.pdf")
-    docs = loader.load()
-    splitter = CharacterTextSplitter(chunk_size=800, chunk_overlap=100)
-    chunks = splitter.split_documents(docs)
+    documentos = []
+    pasta = "documentos"
+    
+    for arquivo in os.listdir(pasta):
+        if arquivo.endswith(".pdf"):
+            caminho = os.path.join(pasta, arquivo)
+            loader = PyPDFLoader(caminho)
+            documentos.extend(loader.load())
+    
+    splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+    chunks = splitter.split_documents(documentos)
+    
     embeddings = HuggingFaceEmbeddings()
     return FAISS.from_documents(chunks, embeddings)
 
