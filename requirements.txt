@@ -1,0 +1,8 @@
+streamlit
+langchain
+huggingface_hub
+faiss-cpu
+tiktoken
+unstructured
+pypdf
+python-dotenv
