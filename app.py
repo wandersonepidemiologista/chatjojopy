@@ -22,7 +22,7 @@ st.markdown("""
     .stApp { background-color: #025e73; }
     .stTextInput > div > div > input { color: #ffffff !important; }
     .stChatMessage.user, .stChatMessage.assistant {
-        background-color: #025e73;
+        background-color: #ffffff;
         border-radius: 10px;
         padding: 10px;
         margin: 5px 0;
