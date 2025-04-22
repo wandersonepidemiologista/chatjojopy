@@ -19,7 +19,7 @@ st.set_page_config(page_title="ChatJoJoPy", layout="wide")
 st.markdown("""
     <style>
     body { background-color: #ffffff; color: #ffffff; }
-    .stApp { background-color: #025e73; }
+    .stApp { background-color: #ffffff; }
     .stTextInput > div > div > input { color: #ffffff !important; }
     .stChatMessage.user, .stChatMessage.assistant {
         background-color: #ffffff;
