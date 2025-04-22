@@ -111,8 +111,8 @@ with abas[1]:
 with abas[2]:
     st.subheader("⚙️ Sobre o projeto")
     st.markdown("""
-    - **Nome:** ChatJoJoPy
+    - **Nome:** Chat JoJoPy
     - **Objetivo:** Apoiar a consulta rápida a documentos técnicos sobre emergências em saúde pública.
-    - **Desenvolvedor:** Wanderson Oliveira
-    - **Código-fonte:** [GitHub](https://github.com/wandersonepidemiologista/chatjojopy)
+    - **Desenvolvedor:** Wanderson Oliveira - Epidemiologista [Sobre mim](https://www.wandersonepidemiologista.com/sobre)
+    - **Código-fonte:** [E-Book Jojopy](https://epidemiologista.quarto.pub/jojopy/)
     """)
