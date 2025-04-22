@@ -1,3 +1,10 @@
+# Ambientes virtuais
 .venv/
 __pycache__/
+
+# Arquivos sensíveis
 .env
+*.key
+
+# Arquivos pessoais
+documentos/conceitos de emergência.docx
