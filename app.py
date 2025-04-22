@@ -85,6 +85,20 @@ abas = st.tabs(["🧠 Chat", "📄 Documentos", "⚙️ Sobre"])
 with abas[0]:
     st.title("🤖 ChatJoJoPy — Emergências em Saúde Pública")
 
+    st.markdown("### 💡 Exemplos de perguntas que você pode fazer:")
+    perguntas_exemplo = [
+        "✅ O que é uma emergência em saúde pública?",
+        "✅ Quais são os planos nacionais existentes?",
+        "✅ Qual a diferença entre preparação e resposta?",
+        "✅ O que é um plano de contingência?",
+        "✅ Quais documentos orientam os municípios em desastres?",
+        "✅ O que são as fases da resposta a emergências?",
+        "✅ Como a vigilância atua em situações de emergência?",
+        "✅ Quais são os indicadores de prontidão e resposta?"
+    ]
+    for pergunta in perguntas_exemplo:
+        st.markdown(f"- {pergunta}")
+
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
