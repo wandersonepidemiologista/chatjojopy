@@ -7,3 +7,5 @@ tiktoken
 unstructured
 pypdf
 python-dotenv
+sentence-transformers
+
