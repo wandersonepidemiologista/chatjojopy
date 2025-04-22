@@ -18,22 +18,22 @@ st.set_page_config(page_title="ChatJoJoPy", layout="wide")
 # Estilo customizado com as cores fornecidas
 st.markdown("""
     <style>
-    body { background-color: #f8f6ca; color: #025e73; }
-    .stApp { background-color: #f8f6ca; }
+    body { background-color: #ffffff; color: #025e73; }
+    .stApp { background-color: #ffffff; }
     .stTextInput > div > div > input { color: #025e73 !important; }
     .stChatMessage.user, .stChatMessage.assistant {
         background-color: #ffffff;
         border-radius: 10px;
         padding: 10px;
         margin: 5px 0;
-        color: #03658c;
+        color: #ffffff;
     }
     .stButton button {
         background-color: #02735e !important;
         color: white !important;
     }
     .stButton button:hover {
-        background-color: #03658c !important;
+        background-color: #ffffff !important;
     }
     </style>
 """, unsafe_allow_html=True)
