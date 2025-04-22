@@ -51,11 +51,9 @@ with st.sidebar:
     """)
 
 # 🧠 Inicializar modelo Hugging Face com LangChain (Versão Corrigida)
-llm = HuggingFacePipeline.from_model_id(
-    model_id="google/flan-t5-base",
-    task="text2text-generation",
-    model_kwargs={"temperature": 0.5},
-    pipeline_kwargs={"max_new_tokens": 512}
+llm = HuggingFaceHub(
+    repo_id="unicamp-dl/mt5-small-portuguese-qa",
+    model_kwargs={"temperature": 0.5, "max_new_tokens": 512}
 )
 
 # 📂 Carregar e indexar documentos
