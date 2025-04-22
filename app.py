@@ -8,7 +8,6 @@ from langchain_community.vectorstores import FAISS
 from dotenv import load_dotenv
 import os
 import random
-from langchain_huggingface import HuggingFacePipeline
 
 # ⚖️ Carregar variáveis de ambiente
 load_dotenv()
