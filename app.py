@@ -18,7 +18,7 @@ st.set_page_config(page_title="ChatJoJoPy", layout="wide")
 # Estilo customizado com as cores fornecidas
 st.markdown("""
     <style>
-    body { background-color: #025e73; color: #ffffff; }
+    body { background-color: #ffffff; color: #ffffff; }
     .stApp { background-color: #025e73; }
     .stTextInput > div > div > input { color: #ffffff !important; }
     .stChatMessage.user, .stChatMessage.assistant {
