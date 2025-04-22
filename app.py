@@ -18,9 +18,9 @@ st.set_page_config(page_title="ChatJoJoPy", layout="wide")
 # Estilo customizado com as cores fornecidas
 st.markdown("""
     <style>
-    body { background-color: #ffffff; color: #ffffff; }
-    .stApp { background-color: #ffffff; }
-    .stTextInput > div > div > input { color: #ffffff !important; }
+    body { background-color: #f8f6ca; color: #025e73; }
+    .stApp { background-color: #f8f6ca; }
+    .stTextInput > div > div > input { color: #025e73 !important; }
     .stChatMessage.user, .stChatMessage.assistant {
         background-color: #ffffff;
         border-radius: 10px;
@@ -29,20 +29,25 @@ st.markdown("""
         color: #03658c;
     }
     .stButton button {
-        background-color: #025e73 !important;
+        background-color: #02735e !important;
         color: white !important;
     }
     .stButton button:hover {
-        background-color: #025e73 !important;
+        background-color: #03658c !important;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar com a logo
+# Sidebar com a logo e descrição
 with st.sidebar:
     st.image("imagens/logo.png", width=200)
     st.title("**Chat JoJoPy**")
     st.subheader("Comunidade de mãos dadas na resposta às emergências em saúde pública")
+    st.markdown("""
+    **O termo \"JOJOPY\" tem origem no Glossário Indígena Guarani-Português e significa \"deram as mãos\". 
+    No contexto guarani, essa expressão vai muito além de um gesto físico, simbolizando união e comunidade, representando a força dos laços coletivos e a construção de uma sociedade solidária. 
+    Essa simbologia traduz os objetivos esperados para os participantes do curso: promover a cooperação e o fortalecimento da coletividade.
+    """)
 
 # 🧠 Inicializar modelo Hugging Face com LangChain
 llm = HuggingFaceHub(
@@ -78,7 +83,7 @@ except Exception as e:
 abas = st.tabs(["🧠 Chat", "📄 Documentos", "⚙️ Sobre"])
 
 with abas[0]:
-    st.title("🤖 Pergunte ao Chat Jojopy")
+    st.title("🤖 ChatJoJoPy — Emergências em Saúde Pública")
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
