@@ -70,7 +70,8 @@ try:
         repo_id="google/flan-t5-small",
         task="text2text-generation",
         huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN"),
-        model_kwargs={"temperature": 0.5, "max_new_tokens": 512}
+        temperature=0.5,
+        max_new_tokens=512
     )
 except Exception as e:
     st.error(f"Erro ao inicializar o modelo LLM (HuggingFaceEndpoint): {e}")
