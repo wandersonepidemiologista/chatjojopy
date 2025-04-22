@@ -103,10 +103,19 @@ with abas[0]:
 
 with abas[1]:
     st.subheader("📄 Documentos carregados")
-    st.markdown("Os seguintes arquivos PDF foram incluídos no modelo:")
-    for arquivo in os.listdir("documentos"):
+    st.markdown("Os seguintes arquivos PDF foram incluídos no modelo e podem ser baixados:")
+    pasta = "documentos"
+    for arquivo in os.listdir(pasta):
         if arquivo.endswith(".pdf"):
-            st.markdown(f"- {arquivo}")
+            caminho = os.path.join(pasta, arquivo)
+            with open(caminho, "rb") as f:
+                bytes_pdf = f.read()
+                st.download_button(
+                    label=f"🔗 Baixar: {arquivo}",
+                    data=bytes_pdf,
+                    file_name=arquivo,
+                    mime="application/pdf"
+                )
 
 with abas[2]:
     st.subheader("⚙️ Sobre o projeto")
@@ -114,5 +123,5 @@ with abas[2]:
     - **Nome:** Chat JoJoPy
     - **Objetivo:** Apoiar a consulta rápida a documentos técnicos sobre emergências em saúde pública.
     - **Desenvolvedor:** Wanderson Oliveira - Epidemiologista [Sobre mim](https://www.wandersonepidemiologista.com/sobre)
-    - **Código-fonte:** [E-Book Jojopy](https://epidemiologista.quarto.pub/jojopy/)
+    - **Saiba mais sobre o município de Jojopy:** [E-Book Jojopy](https://epidemiologista.quarto.pub/jojopy/)
     """)
