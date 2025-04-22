@@ -49,11 +49,10 @@ with st.sidebar:
     Essa simbologia traduz os objetivos esperados para os participantes do curso: **promover a cooperação e o fortalecimento da coletividade**.
     """)
 
-# 🧠 Inicializar modelo Hugging Face com LangChain
+# 🧠 Inicializar modelo Hugging Face com LangChain (Versão Corrigida)
 llm = HuggingFaceHub(
-    repo_id="pierreguillou/t5-base-qa-squad-v1.1-portuguese",
-    model_kwargs={"temperature": 0.5, "max_length": 512},
-    task="text2text-generation"
+    repo_id="google/flan-t5-base",
+    model_kwargs={"temperature": 0.5, "max_new_tokens": 512}
 )
 
 # 📂 Carregar e indexar documentos
