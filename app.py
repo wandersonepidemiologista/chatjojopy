@@ -66,7 +66,8 @@ with st.sidebar:
 try:
     llm = HuggingFaceHub(
         repo_id="google/flan-t5-small",
-        model_kwargs={"temperature": 0.5, "max_new_tokens": 512}
+        model_kwargs={"temperature": 0.5, "max_new_tokens": 512},
+        task="text2text-generation" # Adicione esta linha
     )
 except Exception as e:
     st.error(f"Erro ao inicializar o modelo LLM no Hugging Face Hub: {e}")
