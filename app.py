@@ -8,6 +8,8 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from dotenv import load_dotenv
 import os
+from langchain_community.llms import HuggingFacePipeline
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 # import random # Removido pois não estava sendo utilizado
 
@@ -66,16 +68,15 @@ with st.sidebar:
 # 🧠 Inicializar modelo Hugging Face com LangChain
 # Nota: 'google/flan-t5-small' é um modelo text-to-text versátil e gratuito.
 try:
-    llm = HuggingFaceEndpoint(
-        repo_id="t5-small",
-        task="text2text-generation",
-        huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN"),
-        temperature=0.5,
-        max_new_tokens=512
-    )
+    model_name = "t5-small"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
+    llm = HuggingFacePipeline(pipeline="text2text-generation", model=model, tokenizer=tokenizer, device_map="auto", model_kwargs={"temperature": 0.5, "max_length": 512})
+
 except Exception as e:
-    st.error(f"Erro ao inicializar o modelo LLM (HuggingFaceEndpoint) com t5-small: {e}")
-    st.error("Verifique sua conexão e a chave HUGGINGFACEHUB_API_TOKEN no arquivo .env.")
+    st.error(f"Erro ao inicializar o modelo LLM (HuggingFacePipeline): {e}")
+    st.error("Verifique sua conexão e as bibliotecas transformers.")
     st.stop()
 
 # 📂 Carregar e indexar documentos
