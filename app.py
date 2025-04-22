@@ -1,32 +1,41 @@
 import streamlit as st
-from langchain.llms import HuggingFaceHub
-from langchain.chains.question_answering import load_qa_chain
-from langchain.document_loaders import PyPDFLoader
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import FAISS
+from langchain_community.llms import HuggingFaceHub
 from langchain.chains import RetrievalQA
+from langchain_community.document_loaders import PyPDFLoader
+from langchain.text_splitter import CharacterTextSplitter
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
 from dotenv import load_dotenv
 import os
 import random
 
-# 🔐 Carrega token Hugging Face
+# ⚖️ Carregar variáveis de ambiente
 load_dotenv()
 hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
-# 🤖 Configura modelo de linguagem
+# Sidebar para token opcional
+with st.sidebar:
+    huggingfacehub_api_key = st.text_input("Hugging Face API Token", type="password")
+    st.markdown("[Crie sua chave gratuita](https://huggingface.co/settings/tokens)")
+    st.markdown("[Código fonte no GitHub](https://github.com/wandersonepidemiologista/chatjojopy)")
+
+if not huggingfacehub_api_key:
+    st.info("Por favor, insira sua chave da Hugging Face na barra lateral.")
+    st.stop()
+
+# 🧠 Inicializar modelo Hugging Face com LangChain
 llm = HuggingFaceHub(
     repo_id="google/flan-t5-base",
     model_kwargs={"temperature": 0.5, "max_length": 512},
-    huggingfacehub_api_token=hf_token,
+    huggingfacehub_api_token=huggingfacehub_api_key,
     task="text2text-generation"
 )
 
 # 🌐 Configuração da interface
-st.set_page_config(page_title="ChatJoJoPy com HF", layout="wide")
+st.set_page_config(page_title="ChatJoJoPy", layout="wide")
 st.title("🤖 ChatJoJoPy — Emergências em Saúde Pública")
 
-# 📂 Carrega os documentos
+# 📂 Carregar e indexar documentos
 @st.cache_resource
 def carregar_base():
     documentos = []
@@ -41,39 +50,30 @@ def carregar_base():
     embeddings = HuggingFaceEmbeddings()
     return FAISS.from_documents(chunks, embeddings)
 
-db = carregar_base()
-retriever = db.as_retriever()
-rag = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
+try:
+    db = carregar_base()
+    retriever = db.as_retriever()
+    rag = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
+except Exception as e:
+    st.error(f"Erro ao carregar documentos: {e}")
+    st.stop()
 
-# 💡 Perguntas quebra-gelo
-perguntas_exemplo = [
-    "O que é uma emergência em saúde pública?",
-    "Quais são os critérios para ativar o plano de resposta?",
-    "Quem deve ser acionado primeiro em caso de surto?",
-    "Quais fases compõem um plano de contingência?",
-    "Como a APS atua em situações de desastre?",
-    "Quais os principais indicadores de prontidão municipal?",
-    "Como se organiza o fluxo de resposta em campo?",
-    "O que diferencia uma emergência local de uma nacional?",
-    "Como integrar a atenção primária em emergências?",
-    "Quais documentos norteiam a resposta a desastres químicos?"
-]
+# Inicializa histórico de mensagens
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
 
-sugestao = random.choice(perguntas_exemplo)
-st.markdown("### 💡 **Exemplo de pergunta** (quebra-gelo):")
-st.info(f"💬 {sugestao}")
+# Exibe mensagens anteriores
+for i, (role, content) in enumerate(st.session_state.chat_history):
+    st.chat_message(role).write(content)
 
-if "pergunta" not in st.session_state:
-    st.session_state.pergunta = ""
+# Input interativo
+if prompt := st.chat_input("Digite sua pergunta sobre emergências em saúde pública..."):
+    st.chat_message("user").write(prompt)
+    try:
+        resposta = rag.run(prompt)
+    except Exception as e:
+        resposta = f"Erro ao gerar resposta: {e}"
 
-if st.button("👈 Usar essa pergunta"):
-    st.session_state.pergunta = sugestao
-
-# 🧠 Campo de entrada com sugestão
-pergunta = st.text_input("Digite sua pergunta:", value=st.session_state.pergunta, key="pergunta")
-
-# 📌 Resultado
-if pergunta:
-    resposta = rag.run(pergunta)
-    st.markdown("### 📌 Resposta:")
-    st.write(resposta)
+    st.chat_message("assistant").write(resposta)
+    st.session_state.chat_history.append(("user", prompt))
+    st.session_state.chat_history.append(("assistant", resposta))
