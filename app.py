@@ -187,36 +187,26 @@ with abas[0]:
         with st.chat_message("user"):
             st.write(prompt)
 
-        # Gerar resposta do assistente se o RAG foi configurado
-        if rag:
+        # Gerar resposta do assistente se o LLM foi inicializado
+        if llm:
             try:
                 with st.spinner("Pensando..."):
-                     # CORREÇÃO: Usar invoke com dicionário de input
-                    input_data = {"query": prompt}
-                    result = rag.invoke(input_data)
+                    # Chamada direta ao LLM
+                    resposta = llm.invoke(prompt)
 
-                    # Extrair a resposta (a chave pode ser 'result', 'answer', etc.)
-                    resposta = result.get("result", "Desculpe, não consegui encontrar uma resposta específica para isso.")
-
-                    # Opcional: Mostrar documentos fonte (para depuração ou informação extra)
-                    # source_docs = result.get("source_documents")
-                    # if source_docs:
-                    #     with st.expander("Fontes consultadas"):
-                    #         for doc in source_docs:
-                    #              st.caption(f"Fonte: {doc.metadata.get('source', 'N/A')} - Página: {doc.metadata.get('page', 'N/A')}")
-                    #              st.write(doc.page_content[:200] + "...") # Mostra trecho
+                # Adicionar resposta do assistente ao histórico e mostrar na tela
+                st.session_state.chat_history.append(("assistant", resposta))
+                with st.chat_message("assistant"):
+                    st.write(resposta)
 
             except Exception as e:
-                resposta = f"Erro ao gerar resposta: {e}. Verifique a configuração e a API Key."
-                print(f"Erro na execução do RAG: {e}") # Log do erro no console
+                resposta = f"Erro ao gerar resposta diretamente com o LLM: {e}. Verifique a configuração e a API Key."
+                print(f"Erro na execução do LLM direto: {e}")
         else:
-            # Fallback se RAG não estiver disponível
-            resposta = "Desculpe, a base de documentos não está carregada. Não consigo responder perguntas específicas sobre eles no momento."
-
-        # Adicionar resposta do assistente ao histórico e mostrar na tela
-        st.session_state.chat_history.append(("assistant", resposta))
-        with st.chat_message("assistant"):
-            st.write(resposta)
+            resposta = "O modelo de linguagem não foi inicializado corretamente."
+            st.session_state.chat_history.append(("assistant", resposta))
+            with st.chat_message("assistant"):
+                st.write(resposta)
 
 # Aba de Documentos
 with abas[1]:
