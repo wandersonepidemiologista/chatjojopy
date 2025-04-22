@@ -1,5 +1,6 @@
 import streamlit as st
 from langchain_community.llms import HuggingFaceHub
+from langchain_huggingface import HuggingFaceEndpoint
 from langchain.chains import RetrievalQA
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import CharacterTextSplitter
@@ -7,6 +8,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from dotenv import load_dotenv
 import os
+
 # import random # Removido pois não estava sendo utilizado
 
 # --- Configurações Iniciais ---
@@ -64,13 +66,14 @@ with st.sidebar:
 # 🧠 Inicializar modelo Hugging Face com LangChain
 # Nota: 'google/flan-t5-small' é um modelo text-to-text versátil e gratuito.
 try:
-    llm = HuggingFaceHub(
+    llm = HuggingFaceEndpoint(
         repo_id="google/flan-t5-small",
-        model_kwargs={"temperature": 0.5, "max_new_tokens": 512},
-        task="text2text-generation" # Adicione esta linha
+        task="text2text-generation",
+        huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN"),
+        model_kwargs={"temperature": 0.5, "max_new_tokens": 512}
     )
 except Exception as e:
-    st.error(f"Erro ao inicializar o modelo LLM no Hugging Face Hub: {e}")
+    st.error(f"Erro ao inicializar o modelo LLM (HuggingFaceEndpoint): {e}")
     st.error("Verifique sua conexão e a chave HUGGINGFACEHUB_API_TOKEN no arquivo .env.")
     st.stop()
 
