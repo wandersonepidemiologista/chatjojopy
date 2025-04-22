@@ -11,29 +11,58 @@ import random
 
 # ⚖️ Carregar variáveis de ambiente
 load_dotenv()
-hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
-# Sidebar para token opcional
+# 🌐 Configuração da interface com tema personalizado
+st.set_page_config(page_title="ChatJoJoPy", layout="wide")
+
+# Estilização customizada com as cores fornecidas
+st.markdown("""
+    <style>
+    body {
+        background-color: #f8f6ca;
+        color: #025e73;
+    }
+    .stApp {
+        background-color: #f8f6ca;
+    }
+    .css-1d391kg, .css-1v3fvcr, .css-18e3th9 {
+        background-color: #ffffff !important;
+        border: 1px solid #02735e !important;
+        color: #025e73;
+    }
+    .stTextInput > div > div > input {
+        color: #025e73 !important;
+    }
+    .stChatMessage.user, .stChatMessage.assistant {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 5px 0;
+        color: #03658c;
+    }
+    .stButton button {
+        background-color: #02735e !important;
+        color: white !important;
+    }
+    .stButton button:hover {
+        background-color: #03658c !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+st.title("🤖 ChatJoJoPy — Emergências em Saúde Pública")
+
+# Sidebar com a logo
 with st.sidebar:
-    huggingfacehub_api_key = st.text_input("Hugging Face API Token", type="password")
-    st.markdown("[Crie sua chave gratuita](https://huggingface.co/settings/tokens)")
+    st.image("imagens/logo.png", width=200)
     st.markdown("[Código fonte no GitHub](https://github.com/wandersonepidemiologista/chatjojopy)")
-
-if not huggingfacehub_api_key:
-    st.info("Por favor, insira sua chave da Hugging Face na barra lateral.")
-    st.stop()
 
 # 🧠 Inicializar modelo Hugging Face com LangChain
 llm = HuggingFaceHub(
     repo_id="google/flan-t5-base",
     model_kwargs={"temperature": 0.5, "max_length": 512},
-    huggingfacehub_api_token=huggingfacehub_api_key,
     task="text2text-generation"
 )
-
-# 🌐 Configuração da interface
-st.set_page_config(page_title="ChatJoJoPy", layout="wide")
-st.title("🤖 ChatJoJoPy — Emergências em Saúde Pública")
 
 # 📂 Carregar e indexar documentos
 @st.cache_resource
