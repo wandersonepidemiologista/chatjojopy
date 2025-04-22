@@ -8,6 +8,7 @@ from langchain_community.vectorstores import FAISS
 from dotenv import load_dotenv
 import os
 import random
+from langchain_huggingface import HuggingFacePipeline
 
 # ⚖️ Carregar variáveis de ambiente
 load_dotenv()
@@ -50,9 +51,11 @@ with st.sidebar:
     """)
 
 # 🧠 Inicializar modelo Hugging Face com LangChain (Versão Corrigida)
-llm = HuggingFaceHub(
-    repo_id="google/flan-t5-base",
-    model_kwargs={"temperature": 0.5, "max_new_tokens": 512}
+llm = HuggingFacePipeline.from_model_id(
+    model_id="google/flan-t5-base",
+    task="text2text-generation",
+    model_kwargs={"temperature": 0.5},
+    pipeline_kwargs={"max_new_tokens": 512}
 )
 
 # 📂 Carregar e indexar documentos
