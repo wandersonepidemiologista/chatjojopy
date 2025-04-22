@@ -9,7 +9,7 @@ from langchain_community.vectorstores import FAISS
 from dotenv import load_dotenv
 import os
 from langchain_community.llms import HuggingFacePipeline
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 
 # import random # Removido pois não estava sendo utilizado
 
@@ -72,7 +72,8 @@ try:
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
-    llm = HuggingFacePipeline(pipeline="text2text-generation", model=model, tokenizer=tokenizer, device_map="auto", model_kwargs={"temperature": 0.5, "max_length": 512})
+    pipe = pipeline("text2text-generation", model=model, tokenizer=tokenizer, device_map="auto", max_length=512)
+    llm = HuggingFacePipeline(pipeline=pipe)
 
 except Exception as e:
     st.error(f"Erro ao inicializar o modelo LLM (HuggingFacePipeline): {e}")
