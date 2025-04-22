@@ -62,11 +62,10 @@ with st.sidebar:
 # --- Configuração do Modelo e RAG ---
 
 # 🧠 Inicializar modelo Hugging Face com LangChain
-# Nota: 'mt5-small-portuguese-qa' é um modelo pequeno e específico para QA.
-# Para respostas mais elaboradas, considere outros modelos (pode exigir mais recursos/custos).
+# Nota: 'google/flan-t5-small' é um modelo text-to-text versátil e gratuito.
 try:
     llm = HuggingFaceHub(
-        repo_id="unicamp-dl/mt5-small-portuguese-qa",
+        repo_id="google/flan-t5-small",
         model_kwargs={"temperature": 0.5, "max_new_tokens": 512}
     )
 except Exception as e:
