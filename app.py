@@ -41,7 +41,8 @@ st.markdown("""
 # Sidebar com a logo
 with st.sidebar:
     st.image("imagens/logo.png", width=200)
-    st.markdown("[Código fonte no GitHub](https://github.com/wandersonepidemiologista/chatjojopy)")
+    st.title("**Chat JoJoPy**")
+    st.subheader("Comunidade de mãos dadas na resposta às emergências em saúde pública")
 
 # 🧠 Inicializar modelo Hugging Face com LangChain
 llm = HuggingFaceHub(
