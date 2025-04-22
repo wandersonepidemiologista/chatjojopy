@@ -122,6 +122,8 @@ db = carregar_e_indexar_base()
 rag = None
 if db:
     try:
+        from langchain.prompts import PromptTemplate # Importe aqui dentro do bloco
+
         retriever = db.as_retriever(search_kwargs={'k': 3})
         # Criar um template de prompt customizado
         prompt_template = """Responda à seguinte pergunta com base no contexto fornecido:
