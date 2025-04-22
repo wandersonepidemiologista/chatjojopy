@@ -44,9 +44,9 @@ with st.sidebar:
     st.title("**Chat JoJoPy**")
     st.subheader("Comunidade de mãos dadas na resposta às emergências em saúde pública")
     st.markdown("""
-    O termo **\"JOJOPY\"** tem origem no Glossário Indígena Guarani-Português e significa \"deram as mãos\". 
+    O termo **\"JOJOPY\"** tem origem no Glossário Indígena Guarani-Português e significa **\"deram as mãos\"**. 
     No contexto guarani, essa expressão vai muito além de um gesto físico, simbolizando união e comunidade, representando a força dos laços coletivos e a construção de uma sociedade solidária. 
-    Essa simbologia traduz os objetivos esperados para os participantes do curso: promover a cooperação e o fortalecimento da coletividade.
+    Essa simbologia traduz os objetivos esperados para os participantes do curso: **promover a cooperação e o fortalecimento da coletividade**.
     """)
 
 # 🧠 Inicializar modelo Hugging Face com LangChain
