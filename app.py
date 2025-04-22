@@ -197,8 +197,9 @@ with abas[0]:
         if llm:
             try:
                 with st.spinner("Pensando..."):
-                    # Chamada direta ao LLM
-                    resposta = llm.invoke(prompt)
+                    # Chamada direta ao LLM com um prompt mais explícito
+                    response = llm.invoke(f"Responda à seguinte pergunta: {prompt}")
+                    resposta = response
 
                 # Adicionar resposta do assistente ao histórico e mostrar na tela
                 st.session_state.chat_history.append(("assistant", resposta))
@@ -206,7 +207,7 @@ with abas[0]:
                     st.write(resposta)
 
             except Exception as e:
-                resposta = f"Erro ao gerar resposta diretamente com o LLM: {e}. Verifique a configuração e a API Key."
+                resposta = f"Erro ao gerar resposta diretamente com o LLM: {e}. Verifique a configuração."
                 print(f"Erro na execução do LLM direto: {e}")
         else:
             resposta = "O modelo de linguagem não foi inicializado corretamente."
