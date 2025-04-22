@@ -51,7 +51,7 @@ with st.sidebar:
 
 # 🧠 Inicializar modelo Hugging Face com LangChain
 llm = HuggingFaceHub(
-    repo_id="declare-lab/flan-alpaca-base",
+    repo_id="google/flan-t5-small",
     model_kwargs={"temperature": 0.5, "max_length": 512},
     task="text2text-generation"
 )
