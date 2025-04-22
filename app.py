@@ -22,7 +22,7 @@ st.markdown("""
     .stApp { background-color: #f8f6ca; }
     .stTextInput > div > div > input { color: #025e73 !important; }
     .stChatMessage.user, .stChatMessage.assistant {
-        background-color: #ffffff;
+        background-color: #025e73;
         border-radius: 10px;
         padding: 10px;
         margin: 5px 0;
@@ -78,7 +78,7 @@ except Exception as e:
 abas = st.tabs(["🧠 Chat", "📄 Documentos", "⚙️ Sobre"])
 
 with abas[0]:
-    st.title("🤖 ChatJoJoPy — Emergências em Saúde Pública")
+    st.title("🤖 Pergunte ao Chat Jojopy")
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
