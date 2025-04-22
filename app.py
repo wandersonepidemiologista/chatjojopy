@@ -67,14 +67,14 @@ with st.sidebar:
 # Nota: 'google/flan-t5-small' é um modelo text-to-text versátil e gratuito.
 try:
     llm = HuggingFaceEndpoint(
-        repo_id="facebook/bart-large-mnli",
+        repo_id="t5-small",
         task="text2text-generation",
         huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN"),
         temperature=0.5,
         max_new_tokens=512
     )
 except Exception as e:
-    st.error(f"Erro ao inicializar o modelo LLM (HuggingFaceEndpoint) com BART: {e}")
+    st.error(f"Erro ao inicializar o modelo LLM (HuggingFaceEndpoint) com t5-small: {e}")
     st.error("Verifique sua conexão e a chave HUGGINGFACEHUB_API_TOKEN no arquivo .env.")
     st.stop()
 
